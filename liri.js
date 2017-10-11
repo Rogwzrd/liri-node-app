@@ -33,8 +33,7 @@ switch (cmd) {
             	for (var x = 0; x < tweets.statuses.length; x++){
             	console.log(`#${x} this tweet was created on: ${tweets.statuses[x].created_at}`);
             	console.log(`#${x} tweet: ${tweets.statuses[x].text}`);
-            	}
-                // console.log(tweets);
+            	};
             };
             // if (response) {
 
