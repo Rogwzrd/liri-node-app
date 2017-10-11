@@ -34,6 +34,7 @@ switch (cmd) {
             	console.log(`#${x} this tweet was created on: ${tweets.statuses[x].created_at}`);
             	console.log(`#${x} tweet: ${tweets.statuses[x].text}`);
             	};
+            	
             };
             // if (response) {
 
