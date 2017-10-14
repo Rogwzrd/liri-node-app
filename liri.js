@@ -50,6 +50,7 @@ switch (cmd) {
 
             query.push(word);
         }
+
         query = query.join(" ");
 
         spotify.search({ type: 'track', query: query, limit: 20 }, function(err, data) {
@@ -59,18 +60,16 @@ switch (cmd) {
 
             if (data) {
                 artistArray = [];
-                // console.log(data.tracks.items);
                 for (var i = 0; i < data.tracks.items[0].artists.length; i++) {
                     let artist = (data.tracks.items[0].artists[i].name);
                     artistArray.push(artist);
                     console.log("Artist(s): " + artistArray)
                 };
-
+                
                 console.log("Song title: " + data.tracks.items[0].name);
                 console.log("Preview: " + data.tracks.items[0].preview_url);
                 console.log("Album title: " + data.tracks.items[0].album.name);
             }
-
         });
 
         break;
@@ -116,7 +115,6 @@ switch (cmd) {
         console.log("text file call");
 
         break;
-
 
     default:
 
