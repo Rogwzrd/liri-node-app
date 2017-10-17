@@ -26,33 +26,8 @@ function liriSwitch(userCommand, userInput) {
             //define the empty query array
             var query = [];
 
-            //if the user inputs an argument for the command
-            if (!process.argv[4] && doWhatState === false) {
-                query = "mr+nobody";
-                console.log(query)
-
-                //if you run the do-what-it-says feature
-            } else if (typeof userInput === "object") {
-
-                //itterate through the user input arguments
-                for (var i = 3; i < userInput.length; i++) {
-
-                    var word = userInput[i];
-
-                    //add each argument to the empty query array
-                    query.push(word);
-                }
-                //turn the array into a concatenated query
-                query = query.join("+");
-
-                //if there is no user input and you have not run the do-what-it-says feature
-            } else {
-
-                query = userInput;
-            }
-
-            //call the omdb api request
-            request("http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=40e9cece", function (error, response, body) {
+            //call the omdb api request.... look at this mf'n hoisting y'all
+            request("http://www.omdbapi.com/?t=" + createQuery("mr+nobody") + "&y=&plot=short&apikey=40e9cece", function (error, response, body) {
 
                 if (error) {
                     console.log(error);
@@ -82,33 +57,36 @@ function liriSwitch(userCommand, userInput) {
             var query = [];
 
             //if the user types in a argument for spotify-this-song
-            if (!process.argv[3] && doWhatState === false) {
+           function createQuery(defaultPath) {
+               if (!process.argv[3] && doWhatState === false) {
 
-                query = "the+sign+ace+of+base";
-            }
-            //if there is no user input and you have not run the do-what-it-says feature
-            else if (typeof userInput === "object") {
+                   return defaultPath;
+               }
+               //if there is no user input and you have not run the do-what-it-says feature
+               else if (typeof userInput === "object") {
 
-                //itterate through all arguments beyond the user command
-                for (var i = 3; i < userInput.length; i++) {
+                   //itterate through all arguments beyond the user command
+                   for (var i = 3; i < userInput.length; i++) {
 
-                    var word = userInput[i];
+                       var word = userInput[i];
 
-                    //add each argument to an array
-                    query.push(word);
-                }
+                       //add each argument to an array
+                       query.push(word);
+                   }
 
-                //squash the array into a string with +'s between each item
-                query = query.join("+");
-            }
-            //if the user runs do-what-it says
-            else {
-                //make the query equal to content of the random.txt file
-                query = userInput;
-            }
+                   //squash the array into a string with +'s between each item
+                   query = query.join("+");
+                   return query
+               }
+               //if the user runs do-what-it says
+               else {
+                   //make the query equal to content of the random.txt file
+                   return userInput;
+               }
+           }
             console.log(query)
             //run the api request with the new query
-            spotify.request("https://api.spotify.com/v1/search?q=" + query + "&type=track", function (err, data) {
+            spotify.request("https://api.spotify.com/v1/search?q=" + createQuery("the+sign+ace+of+base") + "&type=track", function (err, data) {
                 if (err) {
                     return console.log('Error occurred: ' + err);
                 }
