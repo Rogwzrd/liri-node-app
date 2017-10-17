@@ -121,7 +121,7 @@ function liriSwitch(userCommand, userInput) {
                 }
             });
 
-            break;\
+            break;
 
             //the user inputs the my-tweets command
         case "my-tweets":
