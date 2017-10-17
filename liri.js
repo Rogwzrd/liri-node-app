@@ -16,7 +16,6 @@ var cmd = process.argv[2],
 //default state for wheter or not the do-what-it-says command has been invoked
 var doWhatState = false;
 
-
 function liriSwitch(userCommand, userInput) {
 
     switch (userCommand){
@@ -27,8 +26,13 @@ function liriSwitch(userCommand, userInput) {
             //define the empty query array
             var query = [];
 
-            console.log(typeof userInput)
-            if (typeof userInput === "object") {
+            //if the user inputs an argument for the command
+            if (!process.argv[4] && doWhatState === false) {
+                query = "mr+nobody";
+                console.log(query)
+
+                //if you run the do-what-it-says feature
+            } else if (typeof userInput === "object") {
 
                 //itterate through the user input arguments
                 for (var i = 3; i < userInput.length; i++) {
@@ -41,9 +45,10 @@ function liriSwitch(userCommand, userInput) {
                 //turn the array into a concatenated query
                 query = query.join("+");
 
+                //if there is no user input and you have not run the do-what-it-says feature
             } else {
+
                 query = userInput;
-                console.log(userInput)
             }
 
             //call the omdb api request
@@ -77,7 +82,12 @@ function liriSwitch(userCommand, userInput) {
             var query = [];
 
             //if the user types in a argument for spotify-this-song
-            if (typeof userInput === "object") {
+            if (!process.argv[3] && doWhatState === false) {
+
+                query = "the+sign+ace+of+base";
+            }
+            //if there is no user input and you have not run the do-what-it-says feature
+            else if (typeof userInput === "object") {
 
                 //itterate through all arguments beyond the user command
                 for (var i = 3; i < userInput.length; i++) {
@@ -91,17 +101,12 @@ function liriSwitch(userCommand, userInput) {
                 //squash the array into a string with +'s between each item
                 query = query.join("+");
             }
-            //if there is no user input and you have not run the do-what-it-says feature
-            else if (!process.argv[4] && doWhatState === false) {
-
-                query = "the+sign+ace+of+base";
-            }
             //if the user runs do-what-it says
             else {
                 //make the query equal to content of the random.txt file
                 query = userInput;
             }
-
+            console.log(query)
             //run the api request with the new query
             spotify.request("https://api.spotify.com/v1/search?q=" + query + "&type=track", function (err, data) {
                 if (err) {
@@ -126,7 +131,7 @@ function liriSwitch(userCommand, userInput) {
 
             break;
 
-            //the user inputs the my-tweets command
+        //the user inputs the my-tweets command
         case "my-tweets":
 
             var params = {q: "mikeD_Developer", count: 20};
@@ -147,14 +152,14 @@ function liriSwitch(userCommand, userInput) {
                         console.log(`#${x + 1} this tweet was created on: ${tweets.statuses[x].created_at}`);
                         console.log(`#${x + 1} tweet: ${tweets.statuses[x].text}`);
                     }
-                   console.log(`**************************************************`)
+                    console.log(`**************************************************`)
                 }
 
             });
 
             break;
 
-            //the user inputs the do-what-it-says command
+        //the user inputs the do-what-it-says command
         case "do-what-it-says":
 
             var fs = require("fs");
@@ -186,7 +191,7 @@ function liriSwitch(userCommand, userInput) {
 
             break;
 
-            //if the user inputs commands that are not defined
+        //if the user inputs commands that are not defined
         default:
 
             console.log("you need to try a different command to run this file");
