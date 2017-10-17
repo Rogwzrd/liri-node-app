@@ -70,11 +70,11 @@ function liriSwitch(userCommand, userInput) {
             }
 
             if (!process.argv[3]){
-                params = { type: "track", id:"0hrBpAOgrt8RXigk83LLNE"}
+               var query = "the+sign+ace+of+base";
                 console.log("no user input")
             }
-            var params = {type: 'track', query: query, limit: 20}
-            spotify.search(params, function (err, data) {
+
+            spotify.request("https://api.spotify.com/v1/search?q=" + query + "&type=track", function (err, data) {
                 if (err) {
                     return console.log('Error occurred: ' + err);
                 }
