@@ -27,17 +27,24 @@ function liriSwitch(userCommand, userInput) {
             //define the empty query array
             var query = [];
 
-            //itterate through the user input arguments
-            for (var i = 3; i < input.length; i++) {
+            console.log(typeof userInput)
+            if (typeof userInput === "object") {
 
-                var word = input[i];
+                //itterate through the user input arguments
+                for (var i = 3; i < userInput.length; i++) {
 
-                //add each argument to the empty query array
-                query.push(word);
+                    var word = userInput[i];
+
+                    //add each argument to the empty query array
+                    query.push(word);
+                }
+                //turn the array into a concatenated query
+                query = query.join("+");
+
+            } else {
+                query = userInput;
+                console.log(userInput)
             }
-
-            //turn the array into a concatenated query
-            query = query.join("+");
 
             //call the omdb api request
             request("http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=40e9cece", function (error, response, body) {
@@ -69,8 +76,6 @@ function liriSwitch(userCommand, userInput) {
 
             var query = [];
 
-            console.log(query)
-            console.log(userInput)
             //if the user types in a argument for spotify-this-song
             if (typeof userInput === "object") {
 
@@ -88,15 +93,13 @@ function liriSwitch(userCommand, userInput) {
             }
             //if there is no user input and you have not run the do-what-it-says feature
             else if (!process.argv[4] && doWhatState === false) {
-                console.log("doWhatState in the no input space is" + doWhatState);
+
                 query = "the+sign+ace+of+base";
-                console.log("no user input")
             }
             //if the user runs do-what-it says
             else {
                 //make the query equal to content of the random.txt file
                 query = userInput;
-            console.log(query)
             }
 
             //run the api request with the new query
@@ -117,7 +120,7 @@ function liriSwitch(userCommand, userInput) {
                     console.log("Song title: " + data.tracks.items[0].name);
                     console.log("Preview: " + data.tracks.items[0].preview_url);
                     console.log("Album title: " + data.tracks.items[0].album.name);
-                    console.log(`**************************************************`)
+                    console.log(`***************************************************`)
                 }
             });
 
