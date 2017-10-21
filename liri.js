@@ -49,6 +49,8 @@ function liriSwitch(userCommand, userInput) {
                     objectValueCheck("Title", "Title");
                     objectValueCheck("Year", "Year released");
                     objectValueCheck("imdbRating", "Imdb rating");
+
+                    //the Rotten tomatoes rating does not always exist so this funciton checks its existence before logging to prevent errors
                     for (var i = 0; i< body.Ratings; i++) {
                         if (i === "Rotten Tomatoes") {
                             console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings[1]["Value"]);
